@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="18" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="generalSprite" tilewidth="32" tileheight="32">
+  <image source="generalSprite.png" width="128" height="1184"/>
+  <tile id="60">
+   <properties>
+    <property name="tileType" value="empty"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Sky" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAVDEXii4YG2n95uwGe/FxTTy24vLJgW9sHMhdmBLQxoERfI9uOzE91dtHIDtjD2wqKWUuAIxE5A7AzELki0Ew42unpK04MrELsBsTsQeyDRbjjY6OopBdjSNSmYloDe9hGyn95gpNtPLQAA7/YWtgAJAAA=
+  </data>
+ </layer>
+ <layer name="Sky2" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAXkAlsoHmj7B8Id6HYPRDgMdPjDAC3dgS2cScUD7YaBspcS+x2pZLczELuQYb8rEPsCsR8Q+wNxABF8Nyxi7kDsQYb9IBAIxEFAHAzEIUTwvbCIDVeAHs70BgMZzt5Y8FAFAEgW9EIACQAA
+  </data>
+ </layer>
+ <layer name="Background" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+WTYQ6CMAyFdwXJUFBQUK+EmOj9z+Ga7CWltsuCiD9c8hLbLf3oq3Vu3tkIrX3+lX+PvH3QIaqJuXFF/jHoFNX9gH8OukRdF+JTjcJN5zqw3yPja5L3g/EuxZdCjVqpT/+Bxr3z6y/wW4VPMyDvS8FvFT73NcW3/O8VvuV/v3D/8Bn1EWP/rHvJR285fLylGrRrHauPGPtn3Wv+lwk+975ifMwZ9RFj/xA/gp4slv1TTW/0rM3Ks3zhlts/bS45bz/h7xL87Uw+5owY/uf27423pZG39j/X/0rJyyO/9Zbp/9zzAu4UF1AACQAA
+  </data>
+ </layer>
+ <layer name="CollisionLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAxNgYGAQIBEzAbEtGmYlwxxy8UDZzwnEbEDMgcV+dqgcF539Tc9woJf9sHBGx9jCHVc8oGNS4oUYf5KKSQmXUfuHhv3MQMwygPazkqh21P6hYT8vEDMSgflIVEtpuTwcMQAtYxN7AAkAAA==
+  </data>
+ </layer>
+ <layer name="DamagingLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7NlYGCwHcWjeBSP4lE8ikfxKB5BGADNrZZ5AAkAAA==
+  </data>
+ </layer>
+ <layer name="DecorLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7NlYGCwHcWjeBSP4lE8ikfxKB5BGADNrZZ5AAkAAA==
+  </data>
+ </layer>
+ <layer name="LadderLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7NlYGCwHcWjeBSP4lE8ikfxKB5BGADNrZZ5AAkAAA==
+  </data>
+ </layer>
+ <layer name="PlatformLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7NlYGCwHYKYHw0PtHsGAnMDMc8gcMdAxvtITgcjMf4HGoPCHD2twfjDNS5ITWej6XIUDxUMADfTJKoACQAA
+  </data>
+ </layer>
+ <layer name="UpBlockingLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3NuQ0AIBDEwG3sSuSnYLaGI0BIDia1Q1IkFKvWrCcbN4ZNW7Yf/AEAwL8OhFRHHQAJAAA=
+  </data>
+ </layer>
+ <layer name="DownBlockingLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7NlYGCwHcWjeBSP4lE8ikfxKB5BGADNrZZ5AAkAAA==
+  </data>
+ </layer>
+ <layer name="LeftBlockingLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7NlYGCwHcWjeBSP4lE8ikfxKB5BGADNrZZ5AAkAAA==
+  </data>
+ </layer>
+ <layer name="RightBlockingLayer" width="32" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7NlYGCwHcWjeBSP4lE8ikfxKB5BGADNrZZ5AAkAAA==
+  </data>
+ </layer>
+ <objectgroup name="EnemySpawnLayer" width="32" height="18">
+  <object x="224" y="384" width="32" height="32"/>
+  <object x="576" y="224" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="PlayerSpawnLayer" width="32" height="18">
+  <object x="768" y="384" width="64" height="96"/>
+ </objectgroup>
+ <objectgroup name="SwitchSpawnLayer" width="32" height="18">
+  <object x="576" y="352" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="ChestSpawnLayer" width="32" height="18">
+  <object x="672" y="320" width="32" height="32"/>
+ </objectgroup>
+</map>
