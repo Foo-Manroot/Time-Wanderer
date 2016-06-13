@@ -4,8 +4,6 @@ import controller.KeyboardMouseController;
 import controller.PlayerController;
 import entities.InteractiveObject;
 import entities.Player;
-import entities.VersatileChest;
-import items.Catalog;
 import creators.ItemCreator;
 import items.MeleeWeapon;
 import items.RangedWeapon;
@@ -144,6 +142,10 @@ public class LevelState extends BasicGameState {
      * Initialices the common things between the constructors.
      */
     private void initialization () throws SlickException {
+        
+        /* The level is set initially with the modern timeline selected */
+        worldIdx = 1;
+        
         levelBossKilled = false;
         stageIndex = new int[2];
         

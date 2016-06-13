@@ -29,7 +29,7 @@ public class KeyboardMouseController extends PlayerController {
         if (i.isKeyDown(Input.KEY_Q)) {
             
             LevelState.changeTimeline();
-            MainClass.currentPlayer = (MainClass.currentPlayer + 1) % 2;
+            //MainClass.currentPlayer = (MainClass.currentPlayer + 1) % 2;
         }
         if (i.isKeyDown(Input.KEY_A) || i.isKeyDown(Input.KEY_LEFT)) {
             
@@ -97,9 +97,16 @@ public class KeyboardMouseController extends PlayerController {
 
         if (i.isKeyDown(Input.KEY_P) || i.isKeyDown(Input.KEY_ESCAPE)) {
 
-            if (MainClass.currentPlayer == 0) {
+//            if (MainClass.currentPlayer == 0) {
+//                MainClass.changeState(MainClass.INVENTORY_STATE_P1_ID);
+//            } else if (MainClass.currentPlayer == 1) {
+//                MainClass.changeState(MainClass.INVENTORY_STATE_P2_ID);
+//            }
+            if (LevelState.worldIdx == 0) {
+                
                 MainClass.changeState(MainClass.INVENTORY_STATE_P1_ID);
-            } else if (MainClass.currentPlayer == 1) {
+            } else if (LevelState.worldIdx == 1) {
+                
                 MainClass.changeState(MainClass.INVENTORY_STATE_P2_ID);
             }
 

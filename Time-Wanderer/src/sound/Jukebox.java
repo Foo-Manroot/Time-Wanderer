@@ -18,11 +18,12 @@ public class Jukebox {
     private final ThreadPoolExecutor pool;
     private final ArrayList<Playable> playables;
     private final AtomicBoolean mustWait;
-
+    
     /**
-     * @param listLength - the number of sounds the jukebox will be able to
-     * play. */
-    public Jukebox(int listLength) {
+     * Creates a new jukebox.
+     */
+    public Jukebox() {
+
         pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         playables = new ArrayList<>();
         mustWait = new AtomicBoolean(false);
@@ -144,21 +145,21 @@ public class Jukebox {
                     playables.add(p);
                     pool.execute(p);
                     break;
-                
+
                 case STEP:
                     path = "/resources/sound/Step.wav";
                     p = new Playable(path, finite, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                        
+
                 case THE_LURKING_BEAST:
                     path = "/resources/sound/TheLurkingBeast.wav";
                     p = new Playable(path, finite, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case FALLING_RUBBLE:
                     path = "/resources/sound/FallingRubble.wav";
                     p = new Playable(path, finite, sound);
@@ -273,21 +274,21 @@ public class Jukebox {
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case STEP:
                     path = "/resources/sound/Step.wav";
                     p = new Playable(path, finite, decibels, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case THE_LURKING_BEAST:
                     path = "/resources/sound/TheLurkingBeast.wav";
                     p = new Playable(path, finite, decibels, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case FALLING_RUBBLE:
                     path = "/resources/sound/FallingRubble.wav";
                     p = new Playable(path, finite, decibels, sound);
@@ -402,22 +403,22 @@ public class Jukebox {
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case STEP:
                     path = "/resources/sound/Step.wav";
                     p = new Playable(path, start, end, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                        
-                        
+
+
                 case THE_LURKING_BEAST:
                     path = "/resources/sound/TheLurkingBeast.wav";
                     p = new Playable(path, start, end, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case FALLING_RUBBLE:
                     path = "/resources/sound/FallingRubble.wav";
                     p = new Playable(path, start, end, sound);
@@ -533,21 +534,21 @@ public class Jukebox {
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case STEP:
                     path = "/resources/sound/Step.wav";
                     p = new Playable(path, start, end, decibels, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                        
+
                 case THE_LURKING_BEAST:
                     path = "/resources/sound/TheLurkingBeast.wav";
                     p = new Playable(path, start, end, decibels, sound);
                     playables.add(p);
                     pool.execute(p);
                     break;
-                    
+
                 case FALLING_RUBBLE:
                     path = "/resources/sound/FallingRubble.wav";
                     p = new Playable(path, start, end, decibels, sound);
@@ -590,40 +591,40 @@ public class Jukebox {
         mustWait.set(false);
         notifyAll();
     }
-    
-    
+
+
     /**
-     * This method will be called when a playable ends its task, so it can be 
+     * This method will be called when a playable ends its task, so it can be
      * removed from the list.
-     * 
+     *
      * @param playable
      *              Playable that finished its execution.
      */
     public void clipEnded (Playable playable) {
-        
+
         /* Removes the object from the list */
         playables.remove(playable);
     }
 
     /**
      * Returns <i>true</i> if the given clip is playing.
-     * 
-     * @param clip 
+     *
+     * @param clip
      *             The clip which name is going to be searched between the
      *          currently playing clips.
-     * 
-     * @return 
+     *
+     * @return
      */
     public boolean isPlaying (Playlist clip) {
-        
+
         for (Playable p : playables) {
-            
+
             if (p.getClipName().equals(clip)) {
-             
+
                 return true;
             }
         }
-        
+
         return false;
     }
 }

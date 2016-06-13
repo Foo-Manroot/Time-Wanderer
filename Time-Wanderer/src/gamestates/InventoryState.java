@@ -50,12 +50,12 @@ public class InventoryState extends BasicGameState {
     public int getID() {
         return id;
     }
-    
+
     @Override
     public void enter(GameContainer container, StateBasedGame game) {
-        
+
         /* Updates the current state's id */
-        MainClass.currState = (MainClass.currentPlayer == 0)? 
+        MainClass.currState = (LevelState.worldIdx == 0)?
                                MainClass.INVENTORY_STATE_P1_ID :
                                MainClass.INVENTORY_STATE_P2_ID;
     }
@@ -67,24 +67,24 @@ public class InventoryState extends BasicGameState {
             enteredItem = new Image("resources/ui/inventory/EnteredItem.png");
             selectedItem = new Image("resources/ui/inventory/SelectedItem.png");
             meleeWeapon = new Image("resources/ui/inventory/Sword.png");
-            
+
             /* World index == 0 -> old timeline -> bow
                World index == 1 -> new timeline -> gun */
             if (LevelState.worldIdx == 0) {
-                
+
                 rangedWeapon = new Image("resources/ui/inventory/Bow.png");
             } else {
-                
+
                 rangedWeapon = new Image("resources/ui/inventory/Gun.png");
             }
-            
+
             magicalRelic = new Image("resources/ui/inventory/Relic.png");
             magicalWeapon = new Image("resources/ui/inventory/Staff.png");
             consumableItem = new Image("resources/ui/inventory/Consumable.png");
         } catch (Exception ex) {
             System.out.println("The game reminds you to have a wonderful day and to love yourself <3");
         }
-        
+
             ix = (MainClass.WINDOW_WIDTH / 2)
                     - (inventoryImage.getWidth() / 2);
             iy = (MainClass.WINDOW_HEIGHT / 2)
@@ -93,8 +93,8 @@ public class InventoryState extends BasicGameState {
             siy = iy + 12;
             index = 0;
             items = new ArrayList<>();
-            player = MainClass.players[MainClass.currentPlayer];
-        
+            player = MainClass.players [LevelState.worldIdx];
+
     }
 
     @Override
@@ -168,7 +168,7 @@ public class InventoryState extends BasicGameState {
             if (mousePressed) {
                 player.getInventory().select(items.get(index).getKey());
             }
-        
+
         }
 
         if (mousePressed) {
@@ -186,7 +186,7 @@ public class InventoryState extends BasicGameState {
         throws SlickException {
         int x = Mouse.getX();
         int y = NumberUtils.invertOrdinate(Mouse.getY());
-        player = MainClass.players[MainClass.currentPlayer];
+        player = MainClass.players [LevelState.worldIdx];
         Iterator<Item> iterator = player.getInventory().getIterator();
 
         if (doNothing > 0) {
