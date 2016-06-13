@@ -108,7 +108,6 @@ public class ItemCreator {
         int attack = 15;
 
         /* Gets the current player */
-//        Player aux = MainClass.players[MainClass.currentPlayer];
         Player aux = MainClass.players [LevelState.worldIdx];
 
         /* To avoid duplicates, generates a new id each time */
@@ -141,7 +140,6 @@ public class ItemCreator {
         int id = 0;
 
         /* Gets the current player */
-//        Player aux = MainClass.players[MainClass.currentPlayer];
         Player aux = MainClass.players [LevelState.worldIdx];
 
         /* To avoid duplicates, generates a new id each time */
@@ -165,7 +163,6 @@ public class ItemCreator {
     public static ConsumableItem newHealthPotion () {
 
         /* Gets the current player */
-//        Player aux = MainClass.players[MainClass.currentPlayer];
         Player aux = MainClass.players [LevelState.worldIdx];
 
         /* Creates a new health potion */
@@ -184,7 +181,6 @@ public class ItemCreator {
     public static ConsumableItem newManaPotion () {
 
         /* Gets the current player */
-//        Player aux = MainClass.players[MainClass.currentPlayer];
         Player aux = MainClass.players [LevelState.worldIdx];
 
         /* Creates a new mana potion */
@@ -207,7 +203,6 @@ public class ItemCreator {
         int attack = 10;
 
         /* Gets the current player */
-//        Player aux = MainClass.players[MainClass.currentPlayer];
         Player aux = MainClass.players [LevelState.worldIdx];
 
         /* To avoid duplicates, generates a new id each time */
@@ -241,7 +236,6 @@ public class ItemCreator {
         int attack = 5;
 
         /* Gets the current player */
-//        Player aux = MainClass.players[MainClass.currentPlayer];
         Player aux = MainClass.players [LevelState.worldIdx];
 
         /* To avoid duplicates, generates a new id each time */
@@ -272,7 +266,6 @@ public class ItemCreator {
         int attack = 5;
 
         /* Gets the current player */
-//        Player aux = MainClass.players[MainClass.currentPlayer];
         Player aux = MainClass.players [LevelState.worldIdx];
 
         /* To avoid duplicates, generates a new id each time */
@@ -300,7 +293,6 @@ public class ItemCreator {
     public static Projectile newArrow () {
 
         /* Gets the current player and the attack from its ranged weapon */
-//        Player player = MainClass.players[MainClass.currentPlayer];
         Player player = MainClass.players [LevelState.worldIdx];
         int attack = (player.getInventory().getRangedWeapon()== null)?
                       0 :
@@ -337,7 +329,6 @@ public class ItemCreator {
     public static Projectile newBullet () {
 
         /* Gets the current player */
-//        Player player = MainClass.players[MainClass.currentPlayer];
         Player player = MainClass.players [LevelState.worldIdx];
         int attack = (player.getInventory().getRangedWeapon()== null)?
                       0 :
@@ -367,7 +358,6 @@ public class ItemCreator {
     public static MagicalEffect newMagicalEffect (Vector2f coordinates) {
 
         /* Gets the current player and its magical weapon attack */
-//        Player player = MainClass.players[MainClass.currentPlayer];
         Player player = MainClass.players [LevelState.worldIdx];
         int attack = (player.getInventory().getMagicalWeapon() == null)?
                       0 :

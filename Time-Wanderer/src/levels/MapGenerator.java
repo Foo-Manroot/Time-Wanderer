@@ -22,10 +22,13 @@ public class MapGenerator {
     private final int initialRow = 0;   // Initial coordinates to start generation.
     private final int initialColumn = 0;
     
-    public static final int bossRoomRow = rows-1;
-    public static final int bossRoomColumn = columns-1;
+    /* The boss's room will be selected "randomly" */
+    public static final int bossRoomRow = (int) (Math.random() * rows);
+    public static final int bossRoomColumn = (int) ((columns / 2)
+                                                   + Math.random()
+                                                   * (columns / 2));
    
-    private Random randomSeed; // Random number generator
+    private final Random randomSeed; // Random number generator
 
     /** Map without being yet converted to rooms.
      *  The third coordinate takes note of the characteristics for backtracking:
