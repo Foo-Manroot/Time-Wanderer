@@ -23,7 +23,7 @@ public class MapGenerator {
     private final int initialColumn = 0;
     
     /* The boss's room will be selected "randomly" */
-    public static final int bossRoomRow = (int) (Math.random() * rows);
+    public static final int bossRoomRow = (int) (Math.random() * (rows - 1) + 1);
     public static final int bossRoomColumn = (int) ((columns / 2)
                                                    + Math.random()
                                                    * (columns / 2));

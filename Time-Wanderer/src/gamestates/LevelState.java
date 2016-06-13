@@ -28,6 +28,7 @@ import main.MainClass;
 import static main.MainClass.INVENTORY_STATE_P1_ID;
 import static main.MainClass.INVENTORY_STATE_P2_ID;
 import misc.MiniMap;
+import misc.SoundInterface;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import sound.Playlist;
@@ -73,11 +74,6 @@ public class LevelState extends BasicGameState {
     
     private boolean isInFinalRoom[] = {false,false};
     
-    private MeleeWeapon[] meleeWeapon;
-    private RangedWeapon[] rangedWeapon;
-    //InteractiveObject button;
-    private InteractiveObject chest1;
-    private InteractiveObject chest2;
     /**
      * Interface for the minimap.
      */
@@ -106,6 +102,12 @@ public class LevelState extends BasicGameState {
     TransitionDirection transitionInfo = TransitionDirection.NONE;
 
     private PlayerInterface[] playerInterface;
+    
+    /**
+     * Interface to show the current state of the sound (music ON/OFF, and 
+     * sound effects ON/OFF).
+     */
+    private SoundInterface soundInterface;
     
     /**
      * Path where the file with the map is stored.
@@ -206,6 +208,8 @@ public class LevelState extends BasicGameState {
         playerInterface[1] = new PlayerInterface(player[1], new int[]{130, 6});
         
         
+        /* Creates the interface for the control of the sound on the level */
+        soundInterface = new SoundInterface();
         
         playerController = new KeyboardMouseController[2];
         playerController[0] = new KeyboardMouseController(player[0]);
@@ -332,6 +336,8 @@ public class LevelState extends BasicGameState {
         g.setColor(Color.green);      
         
         miniMap.render(g);
+        
+        soundInterface.render(g);
     }
 
     @Override
@@ -493,6 +499,8 @@ public class LevelState extends BasicGameState {
         currentRoom[worldIdx].update(delta);
 
         playerInterface[worldIdx].update();
+        
+        soundInterface.update();
         
         /* If the player has died, the game state must be changed to one
         with a "you died" screen, or something */

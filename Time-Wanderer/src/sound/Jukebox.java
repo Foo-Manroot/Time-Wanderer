@@ -13,11 +13,28 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Alberto
  * @version 26/03/2016 */
 public class Jukebox {
+    
+    /**
+     * This attribute stores the current state of the music (ON or OFF).
+     * If it's true, the music is playing.
+     */
+    private boolean musicON;
+    
+    /**
+     * This attribute stores the current state of the sound effects (ON or OFF).
+     * If it's true, the effects are playing.
+     */
+    private boolean effectsOn;
+    
     /**
      * A pool whose threads will play a sound (finite or in a loop). */
     private final ThreadPoolExecutor pool;
     private final ArrayList<Playable> playables;
     private final AtomicBoolean mustWait;
+    
+/* -------------------------------------- */
+/* ---- END OF ATTRIBUTES DECLARATION --- */
+/* -------------------------------------- */
     
     /**
      * Creates a new jukebox.
@@ -27,6 +44,9 @@ public class Jukebox {
         pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         playables = new ArrayList<>();
         mustWait = new AtomicBoolean(false);
+        
+        musicON = true;
+        effectsOn = true;
     }
 
     private synchronized void waitUntilClearIfStopped() {
@@ -591,8 +611,7 @@ public class Jukebox {
         mustWait.set(false);
         notifyAll();
     }
-
-
+    
     /**
      * This method will be called when a playable ends its task, so it can be
      * removed from the list.
@@ -605,6 +624,11 @@ public class Jukebox {
         /* Removes the object from the list */
         playables.remove(playable);
     }
+    
+
+/* ---------------------------- */
+/* ---- GETTERS AND SETTERS --- */
+/* ---------------------------- */
 
     /**
      * Returns <i>true</i> if the given clip is playing.
@@ -627,4 +651,28 @@ public class Jukebox {
 
         return false;
     }
+    
+    /**
+     * Returns <i>true</i> if the main music is being played; <i>false</i>
+     * if it's muted.
+     * 
+     * @return 
+     *          The value of {@code musicON}
+     */
+    public boolean isMusicON () {
+        
+        return musicON;
+    }
+
+    /**
+     * Returns <i>true</i> if the sound effects are being played; <i>false</i>
+     * if they're muted.
+     * 
+     * @return 
+     *          The value of {@code effectsOn}
+     */
+    public boolean areEffectsOn() {
+        
+        return effectsOn;
+    }    
 }
