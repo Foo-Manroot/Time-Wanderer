@@ -1,10 +1,12 @@
 package misc;
 
 import main.MainClass;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
+import utils.NumberUtils;
 
 /**
  *  This class implements a little interface with the necessary buttons to
@@ -50,6 +52,9 @@ public class SoundInterface {
                         new Image("resources/ui/pifaceimages/music_ON.png") :
                         new Image("resources/ui/pifaceimages/music_OFF.png");
             
+            /* Resizes the icon to half its initial value */
+            musicIcon = musicIcon.getScaledCopy(0.5f);
+            
         } catch (SlickException ex) {
             
             System.out.println("Exception at SoundInterface(): "
@@ -65,6 +70,9 @@ public class SoundInterface {
                         new Image("resources/ui/pifaceimages/effects_ON.png") :
                         new Image("resources/ui/pifaceimages/effects_OFF.png");
             
+            /* Resizes the icon to half its initial value */
+            effectsIcon = effectsIcon.getScaledCopy(0.5f);
+            
         } catch (SlickException ex) {
             
             System.out.println("Exception at SoundInterface(): "
@@ -76,13 +84,47 @@ public class SoundInterface {
     }
     
     /**
+     * This method checks if the mouse is over the given image.
+     * 
+     * @param image
+     *              The image whose position will be compared with the mouse's
+     *          one.
+     * @param imagePosition 
+     *              Vector with the position of the image.
+     */
+    private boolean checkMousePosition (Image image, Vector2f imagePosition) {
+        
+        int x = Mouse.getX();
+        int y = NumberUtils.invertOrdinate(Mouse.getY());
+        
+        /* Compares the current position of the mouse with the four sides of 
+        the image */
+        return ((x > imagePosition.x) &&
+                (x < (imagePosition.x + image.getWidth()))
+                &&
+                (y > imagePosition.y) &&
+                (y < (imagePosition.y + image.getHeight()))
+                );
+    }
+    
+    /**
      * Updates the state of the icons. If the mouse is over any of them, they'll
      * glow. If they mouse left button is pressed when on the icon's position, 
      * its state will change.
      */
     public void update () {
         
+        /* If the mouse is over the icon, changes its image to the glow one */
+        if (checkMousePosition(musicIcon, musicIconPosition)) {
+            
+            System.out.println("IN");
+        } else {
+            
+            System.out.println("OUT");
+        }
         
+        System.out.println("\tMouse: " + Mouse.getX() + "," + (NumberUtils.invertOrdinate(Mouse.getY()))
+                          + "\n\tIcon: " + musicIconPosition.toString());
     }
     
     /**
