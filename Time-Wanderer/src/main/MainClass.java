@@ -41,7 +41,7 @@ public class MainClass extends StateBasedGame {
     private static MainClass vj;
 
     public static final float SCALE = ((float) WINDOW_HEIGHT / (TILE_SIZE * 18));
-
+    
 /* ------------------------------- */
 /* ---- END OF GAME PARAMETERS --- */
 /* ------------------------------- */

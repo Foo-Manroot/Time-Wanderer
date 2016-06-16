@@ -2,11 +2,8 @@ package gamestates;
 
 import controller.KeyboardMouseController;
 import controller.PlayerController;
-import entities.InteractiveObject;
 import entities.Player;
 import creators.ItemCreator;
-import items.MeleeWeapon;
-import items.RangedWeapon;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

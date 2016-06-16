@@ -5,6 +5,7 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import utils.NumberUtils;
 
@@ -94,16 +95,17 @@ public class SoundInterface {
      */
     private boolean checkMousePosition (Image image, Vector2f imagePosition) {
         
-        int x = Mouse.getX();
-        int y = NumberUtils.invertOrdinate(Mouse.getY());
+        Vector2f mouse = new Vector2f (Mouse.getX(), Mouse.getY());
+        /* Makes the proper adjustements */
+        mouse = NumberUtils.adjustCoordinates(mouse);
         
         /* Compares the current position of the mouse with the four sides of 
         the image */
-        return ((x > imagePosition.x) &&
-                (x < (imagePosition.x + image.getWidth()))
+        return ((mouse.x > imagePosition.x) &&
+                (mouse.x < (imagePosition.x + image.getWidth()))
                 &&
-                (y > imagePosition.y) &&
-                (y < (imagePosition.y + image.getHeight()))
+                (mouse.y > imagePosition.y) &&
+                (mouse.y < (imagePosition.y + image.getHeight()))
                 );
     }
     
@@ -117,14 +119,17 @@ public class SoundInterface {
         /* If the mouse is over the icon, changes its image to the glow one */
         if (checkMousePosition(musicIcon, musicIconPosition)) {
             
-            System.out.println("IN");
+            System.out.println("IN - MUSIC");
         } else {
             
-            System.out.println("OUT");
+            if (checkMousePosition(effectsIcon, effectsIconPosition)) {
+                
+                System.out.println("IN - EFFECTS");
+            } else {
+            
+                System.out.println("OUT");
+            }
         }
-        
-        System.out.println("\tMouse: " + Mouse.getX() + "," + (NumberUtils.invertOrdinate(Mouse.getY()))
-                          + "\n\tIcon: " + musicIconPosition.toString());
     }
     
     /**
