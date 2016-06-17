@@ -1,9 +1,13 @@
 package misc;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.MainClass;
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -38,6 +42,38 @@ public class SoundInterface {
      */
     Vector2f effectsIconPosition = new Vector2f (470, 10);
     
+    /**
+     * Array with all the different images for the music icon.
+     *  Each position has the following image:
+     *  <br> 0 -> ON
+     *  <br> 1 -> OFF
+     *  <br> 2 -> ON-glow
+     *  <br> 3 -> OFF-glow
+     */
+    Image [] musicImages = new Image [4];
+    
+    /**
+     * Array with all the different images for the effects icon.
+     *  Each position has the following image:
+     *  <br> 0 -> ON
+     *  <br> 1 -> OFF
+     *  <br> 2 -> ON-glow
+     *  <br> 3 -> OFF-glow
+     */
+    Image [] effectsImages = new Image [4];
+    
+    /**
+     * Flag to avoid multiple signals from the left mouse button being 
+     * pressed and make just one action so the state won't changed so quickly.
+     */
+    private boolean musicStateChanged = false;
+    
+    /**
+     * Flag to avoid multiple signals from the left mouse button being 
+     * pressed and make just one action so the state won't changed so quickly.
+     */
+    private boolean effectsStateChanged = false;
+    
 /* -------------------------------------- */
 /* ---- END OF ATTRIBUTES DECLARATION --- */
 /* -------------------------------------- */
@@ -47,40 +83,158 @@ public class SoundInterface {
      */
     public SoundInterface () {
         
+        /* Initialization of the images array */
+        initImages();
+    }
+    
+    /**
+     * Initialices the arrays with the images ({@code musicImages} and 
+     * {@code effectsImages}) 
+     */
+    private void initImages () {
+        
+        /* Calls the specific method for each array */
+        initMusicImages();
+        initEffectsImages();
+    }
+    
+    /**
+     * Inititalices the images array for the music icon.
+     */
+    private void initMusicImages () {
+        
+        /* ON */
         try {
-            /* Gets the initial state of the music and loads the right icon */
-            musicIcon = (MainClass.JUKEBOX.isMusicON())? 
-                        new Image("resources/ui/pifaceimages/music_ON.png") :
-                        new Image("resources/ui/pifaceimages/music_OFF.png");
-            
+            musicImages[0] = 
+                    new Image("resources/ui/pifaceimages/music_ON.png");
             /* Resizes the icon to half its initial value */
-            musicIcon = musicIcon.getScaledCopy(0.5f);
+            musicImages[0] = musicImages[0].getScaledCopy(0.5f);
             
-        } catch (SlickException ex) {
+        } catch (SlickException ex) {   
             
-            System.out.println("Exception at SoundInterface(): "
-                                + ex.getMessage());
-            
+            System.out.println("Exception at SoundInterface().initMusicImages"
+                    + " while loading music_ON.png: "
+                    + ex.getMessage());
             /* If an exception has been thrown, initialices the icon to null */
-            musicIcon = null;
+            musicImages [0] = null;
         }
         
+        /* OFF */
         try {
-            /* Gets the initial state of the effects and loads the right icon */
-            effectsIcon = (MainClass.JUKEBOX.areEffectsOn())? 
-                        new Image("resources/ui/pifaceimages/effects_ON.png") :
-                        new Image("resources/ui/pifaceimages/effects_OFF.png");
-            
+            musicImages[1] = 
+                    new Image("resources/ui/pifaceimages/music_OFF.png");
             /* Resizes the icon to half its initial value */
-            effectsIcon = effectsIcon.getScaledCopy(0.5f);
+            musicImages[1] = musicImages[1].getScaledCopy(0.5f);
             
-        } catch (SlickException ex) {
+        } catch (SlickException ex) {            
             
-            System.out.println("Exception at SoundInterface(): "
-                                + ex.getMessage());
-            
+            System.out.println("Exception at SoundInterface().initMusicImages"
+                    + " while loading music_OFF.png: "
+                    + ex.getMessage());
             /* If an exception has been thrown, initialices the icon to null */
-            effectsIcon = null;
+            musicImages [1] = null;
+        }
+        
+        /* ON-glow */
+        try {
+            musicImages[2] = 
+                    new Image("resources/ui/pifaceimages/music_ON-glow.png");
+            /* Resizes the icon to half its initial value */
+            musicImages[2] = musicImages[2].getScaledCopy(0.5f);
+            
+        } catch (SlickException ex) {            
+            
+            System.out.println("Exception at SoundInterface().initMusicImages"
+                    + " while loading music_ON-glow.png: "
+                    + ex.getMessage());
+            /* If an exception has been thrown, initialices the icon to null */
+            musicImages [2] = null;
+        }
+        
+        /* OFF-glow */
+        try {
+            musicImages[3] = 
+                    new Image("resources/ui/pifaceimages/music_OFF-glow.png");
+            /* Resizes the icon to half its initial value */
+            musicImages[3] = musicImages[3].getScaledCopy(0.5f);
+            
+        } catch (SlickException ex) {            
+            
+            System.out.println("Exception at SoundInterface().initMusicImages"
+                    + " while loading music_OFF-glow.png: "
+                    + ex.getMessage());
+            /* If an exception has been thrown, initialices the icon to null */
+            musicImages [3] = null;
+        }
+    }
+    
+    /**
+     * Inititalices the images array for the music icon.
+     */
+    private void initEffectsImages () {
+        
+        /* ON */
+        try {
+            effectsImages[0] = 
+                    new Image("resources/ui/pifaceimages/effects_ON.png");
+            /* Resizes the icon to half its initial value */
+            effectsImages[0] = effectsImages[0].getScaledCopy(0.5f);
+            
+        } catch (SlickException ex) { 
+            
+            System.out.println("Exception at SoundInterface().initEffectsImages"
+                    + " while loading effects_ON.png: "
+                    + ex.getMessage());
+            /* If an exception has been thrown, initialices the icon to null */
+            effectsImages [0] = null;
+        }
+        
+        /* OFF */
+        try {
+            effectsImages[1] = 
+                    new Image("resources/ui/pifaceimages/effects_OFF.png");
+            /* Resizes the icon to half its initial value */
+            effectsImages[1] = effectsImages[1].getScaledCopy(0.5f);
+            
+        } catch (SlickException ex) {  
+            
+            System.out.println("Exception at SoundInterface().initEffectsImages"
+                    + " while loading effects_OFF.png: "
+                    + ex.getMessage());
+            /* If an exception has been thrown, initialices the icon to null */
+            effectsImages [1] = null;
+        }
+        
+        /* ON-glow */
+        try {
+            effectsImages[2] = 
+                    new Image("resources/ui/pifaceimages/effects_ON-glow.png");
+            /* Resizes the icon to half its initial value */
+            effectsImages[2] = effectsImages[2].getScaledCopy(0.5f);
+            
+        } catch (SlickException ex) {  
+            
+            System.out.println("Exception at SoundInterface().initEffectsImages"
+                    + " while loading effects_ON-glow.png: "
+                    + ex.getMessage());
+            /* If an exception has been thrown, initialices the icon to null */
+            effectsImages [2] = null;
+        }
+        
+        /* OFF-glow */
+        try {
+            effectsImages[3] = 
+                    new Image("resources/ui/pifaceimages/effects_OFF-glow.png");
+            /* Resizes the icon to half its initial value */
+            effectsImages[3] = effectsImages[3].getScaledCopy(0.5f);
+            
+        } catch (SlickException ex) {      
+            
+            System.out.println("Exception at SoundInterface().initEffectsImages"
+                    + " while loading effects_OFF-glow.png: "
+                    + ex.getMessage());
+            /* If an exception has been thrown, initialices the icon to null */
+            effectsImages [3] = null;
         }
     }
     
@@ -99,6 +253,11 @@ public class SoundInterface {
         /* Makes the proper adjustements */
         mouse = NumberUtils.adjustCoordinates(mouse);
         
+        if (image == null) {
+            
+            return false;
+        }
+        
         /* Compares the current position of the mouse with the four sides of 
         the image */
         return ((mouse.x > imagePosition.x) &&
@@ -113,21 +272,85 @@ public class SoundInterface {
      * Updates the state of the icons. If the mouse is over any of them, they'll
      * glow. If they mouse left button is pressed when on the icon's position, 
      * its state will change.
+     * 
+     * @param container 
+     *              Container from which the input will be captured.
+     * @param delta 
+     *              Milliseconds that took the computer to update and render
+     *          the previous frame.
      */
-    public void update () {
+    public void update (GameContainer container, int delta) {
         
         /* If the mouse is over the icon, changes its image to the glow one */
         if (checkMousePosition(musicIcon, musicIconPosition)) {
             
-            System.out.println("IN - MUSIC");
+            /* If the left button of the mouse is pressed, changes the state
+            of the music's reproduction */
+            if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+                
+                /* Only changes if the state hasn't been change before */
+                if (!musicStateChanged) {
+                    
+                    MainClass.JUKEBOX.changeMusicState();
+                    /* The flag is set to true so no more changes can be made */
+                    musicStateChanged = true;
+                }
+            }
+
+            musicIcon = (MainClass.JUKEBOX.isMusicON())?
+                            musicImages[2]: /* ON-glow */
+                            musicImages[3] /* OFF-glow */;
+            
         } else {
             
-            if (checkMousePosition(effectsIcon, effectsIconPosition)) {
-                
-                System.out.println("IN - EFFECTS");
-            } else {
+            /* The mouse is not over the icon anymore, so the flag is resetted
+            to false again */
+            musicStateChanged = false;
             
-                System.out.println("OUT");
+            /* If the image was the glow one, restores it with
+            the non-glow icon */
+            if ((musicIcon != musicImages[0]) ||
+                    (musicIcon != musicImages[1])) {
+
+                musicIcon = (MainClass.JUKEBOX.isMusicON())?
+                                musicImages[0]: /* ON */
+                                musicImages[1] /* OFF */;
+            }
+        }
+        
+        /* Checks if the mouse is over the effects icon */
+        if (checkMousePosition(effectsIcon, effectsIconPosition)) {
+            
+            /* If the left button of the mouse is pressed, changes the state
+            of the effects' reproduction */
+            if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+                
+                /* Only changes if the state hasn't been change before */
+                if (!effectsStateChanged) {
+                    
+                    MainClass.JUKEBOX.changeEffectsState();
+                    /* The flag is set to true so no more changes can be made */
+                    effectsStateChanged = true;
+                }
+            }
+
+            effectsIcon = (MainClass.JUKEBOX.areEffectsOn())?
+                            effectsImages[2]: /* ON-glow */
+                            effectsImages[3] /* OFF-glow */;
+        } else {
+
+            /* The mouse is not over the icon anymore, so the flag is resetted
+            to false again */
+            effectsStateChanged = false;
+            
+            /* If the image was the glow one, restores it with
+            the non-glow icon */
+            if ((effectsIcon != effectsImages[0]) ||
+                    (effectsIcon != effectsImages[1])) {
+
+                effectsIcon = (MainClass.JUKEBOX.areEffectsOn())?
+                                effectsImages[0]: /* ON */
+                                effectsImages[1] /* OFF */;
             }
         }
     }

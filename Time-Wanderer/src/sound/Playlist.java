@@ -8,6 +8,7 @@ public enum Playlist {
     ARROW_HIT,
     ARROW_SHOT,
     CAUGHT,
+    FALLING_RUBBLE,
     FREEZING_SPELL,
     GAME_OVER,
     GUITAR_CONCERT,
@@ -20,7 +21,6 @@ public enum Playlist {
     MOUSE_ENTERED,
     SELECT,
     SHOT,
-    THE_LURKING_BEAST,
-    FALLING_RUBBLE,
-    STEP
+    STEP,
+    THE_LURKING_BEAST
 }

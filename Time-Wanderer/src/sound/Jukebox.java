@@ -24,7 +24,7 @@ public class Jukebox {
      * This attribute stores the current state of the sound effects (ON or OFF).
      * If it's true, the effects are playing.
      */
-    private boolean effectsOn;
+    private boolean effectsON;
     
     /**
      * A pool whose threads will play a sound (finite or in a loop). */
@@ -46,7 +46,7 @@ public class Jukebox {
         mustWait = new AtomicBoolean(false);
         
         musicON = true;
-        effectsOn = true;
+        effectsON = true;
     }
 
     private synchronized void waitUntilClearIfStopped() {
@@ -669,10 +669,42 @@ public class Jukebox {
      * if they're muted.
      * 
      * @return 
-     *          The value of {@code effectsOn}
+     *          The value of {@code effectsON}
      */
     public boolean areEffectsOn() {
         
-        return effectsOn;
+        return effectsON;
     }    
+    
+    /**
+     * Inverts the value of {@code musicON}.
+     * 
+     * @return 
+     *              The new value of {@code musicON}
+     */
+    public boolean changeMusicState () {
+        
+        musicON = (!musicON);
+        
+//        /* If the music is playing, stops it. If it's stopped, restarts it */
+//        if (musicON) {
+//            
+//            
+//        }
+        
+        return musicON;
+    }
+    
+    /**
+     * Inverts the value of {@code effectsON}.
+     * 
+     * @return 
+     *              The new value of {@code effectsON}
+     */
+    public boolean changeEffectsState () {
+        
+        effectsON = (!effectsON);
+        
+        return effectsON;
+    }
 }

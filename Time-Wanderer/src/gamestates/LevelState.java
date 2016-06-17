@@ -497,7 +497,7 @@ public class LevelState extends BasicGameState {
 
         playerInterface[worldIdx].update();
         
-        soundInterface.update();
+        soundInterface.update(container, delta);
         
         /* If the player has died, the game state must be changed to one
         with a "you died" screen, or something */
