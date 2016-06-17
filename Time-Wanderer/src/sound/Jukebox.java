@@ -70,8 +70,14 @@ public class Jukebox {
         String path;
         Playable p;
 
+        /* Checks if the sound can be played */
+        if (!check(sound)) {
+            
+            return;
+        }
+        
         waitUntilClearIfStopped();
-
+        
         if (sound != null) {
 
             switch (sound) {
@@ -198,6 +204,12 @@ public class Jukebox {
     public void play(Playlist sound, boolean finite, float decibels) {
         String path;
         Playable p;
+        
+        /* Checks if the sound can be played */
+        if (!check(sound)) {
+            
+            return;
+        }
 
         waitUntilClearIfStopped();
 
@@ -327,6 +339,12 @@ public class Jukebox {
     public void play(Playlist sound, int start, int end) {
         String path;
         Playable p;
+        
+        /* Checks if the sound can be played */
+        if (!check(sound)) {
+            
+            return;
+        }
 
         waitUntilClearIfStopped();
 
@@ -458,6 +476,12 @@ public class Jukebox {
     public void play(Playlist sound, int start, int end, float decibels) {
         String path;
         Playable p;
+        
+        /* Checks if the sound can be played */
+        if (!check(sound)) {
+            
+            return;
+        }
 
         waitUntilClearIfStopped();
 
@@ -578,6 +602,32 @@ public class Jukebox {
 
         }
 
+    }
+    
+    /**
+     * Checks if that sound can be played (depends on the attributes 
+     * {@code musicON} and {@code effectsON}).
+     */
+    private boolean check (Playlist sound) {
+        
+        /* Checks if it's a music clip and can be played */
+        if (musicON && (
+                sound.equals(Playlist.GAME_OVER) ||
+                sound.equals(Playlist.GUITAR_CONCERT) ||
+                sound.equals(Playlist.MEMORIES) ||
+                sound.equals(Playlist.THE_LURKING_BEAST)
+            )) {
+            
+            return true;
+        }
+        
+        /* Checks if it's an effect clip and can be played */
+        return effectsON && !(
+                sound.equals(Playlist.GAME_OVER) &&
+                sound.equals(Playlist.GUITAR_CONCERT) &&
+                sound.equals(Playlist.MEMORIES) &&
+                sound.equals(Playlist.THE_LURKING_BEAST)
+                );
     }
 
     /**

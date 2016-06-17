@@ -1,7 +1,5 @@
 package misc;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import main.MainClass;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -9,7 +7,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import utils.NumberUtils;
 
@@ -88,7 +85,7 @@ public class SoundInterface {
     }
     
     /**
-     * Initialices the arrays with the images ({@code musicImages} and 
+     * Initializes the arrays with the images ({@code musicImages} and 
      * {@code effectsImages}) 
      */
     private void initImages () {
@@ -99,7 +96,7 @@ public class SoundInterface {
     }
     
     /**
-     * Inititalices the images array for the music icon.
+     * Initializes the images array for the music icon.
      */
     private void initMusicImages () {
         
@@ -169,7 +166,7 @@ public class SoundInterface {
     }
     
     /**
-     * Inititalices the images array for the music icon.
+     * Initializes the images array for the music icon.
      */
     private void initEffectsImages () {
         
