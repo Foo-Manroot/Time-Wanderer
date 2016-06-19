@@ -3,7 +3,7 @@
  * sound are specified at Playlist. */
 package sound;
 
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -18,18 +18,18 @@ public class Jukebox {
      * This attribute stores the current state of the music (ON or OFF).
      * If it's true, the music is playing.
      */
-    private boolean musicON;
+    private boolean musicON = true;
     
     /**
      * This attribute stores the current state of the sound effects (ON or OFF).
      * If it's true, the effects are playing.
      */
-    private boolean effectsON;
+    private boolean effectsON = true;
     
     /**
      * A pool whose threads will play a sound (finite or in a loop). */
     private final ThreadPoolExecutor pool;
-    private final ArrayList<Playable> playables;
+    private final ConcurrentLinkedDeque<Playable> playables;
     private final AtomicBoolean mustWait;
     
 /* -------------------------------------- */
@@ -42,11 +42,8 @@ public class Jukebox {
     public Jukebox() {
 
         pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-        playables = new ArrayList<>();
+        playables = new ConcurrentLinkedDeque<>();
         mustWait = new AtomicBoolean(false);
-        
-        musicON = true;
-        effectsON = true;
     }
 
     private synchronized void waitUntilClearIfStopped() {
@@ -611,23 +608,13 @@ public class Jukebox {
     private boolean check (Playlist sound) {
         
         /* Checks if it's a music clip and can be played */
-        if (musicON && (
-                sound.equals(Playlist.GAME_OVER) ||
-                sound.equals(Playlist.GUITAR_CONCERT) ||
-                sound.equals(Playlist.MEMORIES) ||
-                sound.equals(Playlist.THE_LURKING_BEAST)
-            )) {
+        if (musicON && isMusicClip(sound)) {
             
             return true;
         }
         
         /* Checks if it's an effect clip and can be played */
-        return effectsON && !(
-                sound.equals(Playlist.GAME_OVER) &&
-                sound.equals(Playlist.GUITAR_CONCERT) &&
-                sound.equals(Playlist.MEMORIES) &&
-                sound.equals(Playlist.THE_LURKING_BEAST)
-                );
+        return effectsON && !(isMusicClip(sound));
     }
 
     /**
@@ -654,12 +641,53 @@ public class Jukebox {
     public synchronized void stop() {
         mustWait.set(true);
 
-        for (Playable p : playables)
-            p.stop();
+        for (Playable p : playables) {
+         
+            p.end();
+        }
 
         playables.clear();
         mustWait.set(false);
         notifyAll();
+    }
+    
+    /**
+     * Mute all sounds of the selected group.
+     * 
+     * @param muteMusic 
+     *              If this parameter is <i>true</i>, only the music will be
+     *          muted. If it's <i>false</i>, only sound effects will be muted.
+     */
+    public synchronized void mute (boolean muteMusic) {
+        
+        /* If it's the music the sound that will be muted, stops its 
+        reproduction */
+        if (muteMusic) {
+            
+            for (Playable p : playables) {
+                
+                if (isMusicClip(p.getClipName())) {
+                    
+                    p.stopPlaying();
+                }
+            }
+            
+        }
+        
+        /* The sound effects are finite and doesn't long very much, so they
+        will end by themselves and don't have to be stopped */
+    }
+    
+    /**
+     * Returns <i>true</i> if the clip is a music clip. If it's a sound effect,
+     * returns <i>false</i>.
+     */
+    private boolean isMusicClip (Playlist clip) {
+        
+        return (clip.equals(Playlist.GAME_OVER) ||
+                clip.equals(Playlist.GUITAR_CONCERT) ||
+                clip.equals(Playlist.MEMORIES) ||
+                clip.equals(Playlist.THE_LURKING_BEAST));
     }
     
     /**
@@ -736,12 +764,21 @@ public class Jukebox {
         
         musicON = (!musicON);
         
-//        /* If the music is playing, stops it. If it's stopped, restarts it */
-//        if (musicON) {
-//            
-//            
-//        }
-        
+        if (musicON) {
+            
+            mute (true);
+        } else {
+            
+            /* Restarts the music that was being played */
+            for (Playable p : playables) {
+                
+                if (isMusicClip(p.getClipName())) {
+                    
+                    p.restartClip();
+                }
+            }
+        }
+                
         return musicON;
     }
     
@@ -754,6 +791,8 @@ public class Jukebox {
     public boolean changeEffectsState () {
         
         effectsON = (!effectsON);
+        
+        mute (false);
         
         return effectsON;
     }

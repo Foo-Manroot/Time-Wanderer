@@ -27,9 +27,7 @@ public class Playable implements Runnable {
     /**
      * The path of the sound file to be played. */
     private final String path;
-    /**
-     * The boolean flag that indicates if the sound must stop or continue. */
-    private final AtomicBoolean stopped;
+    
     /**
      * The boolean flag that indicates if the sound must finish or not. */
     private final boolean finite;
@@ -66,7 +64,6 @@ public class Playable implements Runnable {
 
         sound = clip;
         this.path = path;
-        stopped = new AtomicBoolean(false);
         this.finite = finite;
         start = 0;
         end = -1;
@@ -95,7 +92,6 @@ public class Playable implements Runnable {
 
         sound = clip;
         this.path = path;
-        stopped = new AtomicBoolean(false);
         this.finite = finite;
         start = 0;
         end = -1;
@@ -124,7 +120,6 @@ public class Playable implements Runnable {
 
         sound = clip;
         this.path = path;
-        stopped = new AtomicBoolean(false);
         this.finite = false;
         this.start = start;
         this.end = end;
@@ -154,18 +149,11 @@ public class Playable implements Runnable {
 
         sound = clip;
         this.path = path;
-        stopped = new AtomicBoolean(false);
         this.finite = false;
         this.start = start;
         this.end = end;
         this.decibels = decibels;
         this.clipName = clipName;
-    }
-
-    /**
-     * @return True if the clip is stopped. False if not. */
-    public boolean isStopped() {
-        return stopped.get();
     }
 
     /**
@@ -177,13 +165,7 @@ public class Playable implements Runnable {
         }
 
     }
-
-    /**
-     * Stops the playback of the sound. */
-    public void stop() {
-        stopped.compareAndSet(false, true);
-    }
-
+    
     /**
      * @param milliseconds - the time (in milliseconds) to sleep. */
     private void sleep(int milliseconds) {
@@ -195,12 +177,15 @@ public class Playable implements Runnable {
         }
 
     }
-
+    
     /**
      * The method which plays the selected sound. */
     @Override
-    public void run() {
+    public void run() {        
         AudioInputStream audioStream;
+        /* Stores the length of the audio clip and waits until it ends, so
+        it can be closed properly */
+        long microsecondsLength;
         //InputStream inputStream;
 
         if (sound == null) {
@@ -215,6 +200,9 @@ public class Playable implements Runnable {
             //audioStream = AudioSystem.getAudioInputStream(inputStream);
             sound.open(audioStream);
             sound.setLoopPoints(start, end);
+            
+            /* Gets the length of the clip */
+            microsecondsLength = sound.getMicrosecondLength();
 
             if (decibels > 0) {
                 if(sound.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
@@ -226,29 +214,16 @@ public class Playable implements Runnable {
 
             if (finite) {
                 sound.start();
-
-                do {
-                    sleep(100);
-                } while (sound.isRunning() && !stopped.get());
-
-                if (stopped.get()) {
-                    sound.stop();
-                }
-
+                
+                /* Converts the microseconds into milliseconds and sleeps that 
+                amount of time */
+                sleep((int) (microsecondsLength / 100));
+                /* Closes the clip and notifies the Jukebox */
+                end();
+                
             } else {
                 sound.loop(Clip.LOOP_CONTINUOUSLY);
-
-                do {
-                    sleep(100);
-                } while (!stopped.get());
-
-                sound.stop();
             }
-
-            sound.close();
-            
-            /* Notifies the player that this clip finished its reproduction */
-            MainClass.JUKEBOX.clipEnded(this);
             
         } catch (IOException exception) {
             System.out.println("The music clip couldn't be imported. See:");
@@ -260,7 +235,36 @@ public class Playable implements Runnable {
             System.out.println("The music clip format is not supported. See:");
             System.out.println(exception.getMessage());
         }
-
+    }
+    
+    /**
+     * Ends the playback of the sound and notifies the JUKEBOX to remove this
+     * playable from its list.
+     */
+    public void end() {
+        
+        sound.stop();
+        sound.close();
+        /* Notifies that this clip finished its reproduction */
+        MainClass.JUKEBOX.clipEnded(this);
+    }
+    
+    /**
+     * Stops the sound being played.
+     */
+    public synchronized void stopPlaying () {
+        
+        /* Stops the clip's reproduction */
+        sound.stop();        
+    }
+    
+    /**
+     * Continues the reproduction of the clip.
+     */
+    public synchronized void restartClip () {
+        
+        /* Restarts the clip's reproduction */
+        sound.start();
     }
 
     /**
