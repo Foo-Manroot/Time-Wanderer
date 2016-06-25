@@ -764,7 +764,7 @@ public class Jukebox {
         
         musicON = (!musicON);
         
-        if (musicON) {
+        if (!musicON) {
             
             mute (true);
         } else {
