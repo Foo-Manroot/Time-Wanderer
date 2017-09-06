@@ -14,3 +14,27 @@ If the entire source is wanted, just clone the entire repository and compile it.
 
     git clone https://github.com/Foo-Manroot/Time-Wanderer
     (...)
+
+# Credits
+
+This game has been made with a team of 5 people:
+
+  - **Alberto Serrano Ibaibarriaga**: All the sound tracks has been composed by him. Also,
+	the inventory and the sound engine is his work.
+
+  - **Miguel García Martín**: Team leader. Coded the enemies' AI and weapons
+	(except the graphics design). Also, general bugfixes.
+
+	  - Github: [Foo-Manroot](https://github.com/Foo-Manroot)
+	  - Contact: [miguel.garciamartin@hotmail.com](mailto:miguel.garciamartin@hotmail.com)
+
+  - **Pablo Peña Romero**: Author of the special items (like potions and runes) and some
+	global fixes around the game.
+
+  - **Sergio Sánchez López**: Sole author of the physics engine (a really hard work that
+	got rewarded with extra points), and the tilesets for the rooms.
+
+	  - Github: [sergio-sanchezl](https://github.com/sergio-sanchezl)
+
+  - **Zamar-Elahi Fazal Roura**: Designer of the characters and objects . Also, as Pablo, he was
+	assigned some global fixes around the game.
