@@ -26,7 +26,6 @@ This game has been made with a team of 5 people:
 	(except the graphics design). Also, general bugfixes.
 
 	  - Github: [Foo-Manroot](https://github.com/Foo-Manroot)
-	  - Contact: [miguel.garciamartin@hotmail.com](mailto:miguel.garciamartin@hotmail.com)
 
   - **Pablo Peña Romero**: Author of the special items (like potions and runes) and some
 	global fixes around the game.
@@ -36,5 +35,7 @@ This game has been made with a team of 5 people:
 
 	  - Github: [sergio-sanchezl](https://github.com/sergio-sanchezl)
 
-  - **Zamar-Elahi Fazal Roura**: Designer of the characters and objects . Also, as Pablo, he was
+  - **Zamar-Elahi Fazal Roura**: Designer of the characters and objects . Also, he was
 	assigned some global fixes around the game.
+
+	  - Github: [HetheMan](https://github.com/HetheMan)
